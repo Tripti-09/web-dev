@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Self-Modifying Web Page</title>
+    <script>
+        function modifyPage() {
+            // Code to modify the page content
+            document.getElementById('content').textContent = 'This page has been modified!';
+            document.getElementById('heading').textContent = 'Modified Page';
+        }
+
+        setInterval(modifyPage, 60000); // Call modifyPage() function every 60 seconds
+    </script>
+</head>
+
+<body>
+    <h1 id="heading">Self-Modifying Web Page</h1>
+    <p id="content">This is the initial content.</p>
+</body>
+
+</html>

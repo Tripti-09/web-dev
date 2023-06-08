@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Invert Image on Mouseover</title>
+    <style>
+        img {
+            width: 300px;
+            transition: filter 0.5s;
+        }
+    </style>
+</head>
+
+<body>
+    <img id="myImage" src="Q7 Input.png" alt="Image">
+
+    <script>
+        var image = document.getElementById("myImage");
+        image.addEventListener("mouseover", function () {
+            image.style.filter = "invert(100%)";
+        });
+        image.addEventListener("mouseout", function () {
+            image.style.filter = "none";
+        });
+    </script>
+</body>
+
+</html>

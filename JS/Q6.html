@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Telephone Number Parser</title>
+</head>
+
+<body>
+    <label for="phoneNumber">Enter telephone number:</label>
+    <input type="text" id="phoneNumber">
+    <button onclick="parsePhoneNumber()">Parse</button>
+    <br /> <br />
+    <label for="areaCode">Area Code:</label>
+    <input type="text" id="areaCode" readonly>
+
+    <label for="phoneNumberDigits">Phone Number:</label>
+    <input type="text" id="phoneNumberDigits" readonly>
+
+    <script>
+        function parsePhoneNumber() {
+            var phoneNumber = document.getElementById("phoneNumber").value;
+            var phoneNumberTokens = phoneNumber.split(/[() -]/);
+
+            var areaCode = phoneNumberTokens[1];
+            var phoneNumberDigits = phoneNumberTokens[2] + (phoneNumberTokens[3] || '');
+
+            document.getElementById("areaCode").value = areaCode;
+            document.getElementById("phoneNumberDigits").value = phoneNumberDigits;
+        }
+    </script>
+</body>
+
+</html>

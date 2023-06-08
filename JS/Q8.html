@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Scrolling Text in Status Bar</title>
+</head>
+
+<body>
+    <script>
+        var message = "This is a scrolling text message in the status bar.";
+        var speed = 100; // Adjust this value to change the scrolling speed (in milliseconds).
+
+        function scrollText() {
+            message = message.substring(1) + message.charAt(0);
+            window.status = message;
+            setTimeout(scrollText, speed);
+        }
+
+        scrollText();
+    </script>
+</body>
+
+</html>

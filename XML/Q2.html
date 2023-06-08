@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Book Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .book {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .book .title {
+            color: #333;
+            font-weight: bold;
+        }
+
+        .book .author {
+            color: red;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .book .isbn {
+            color: blue;
+        }
+
+        .book .publisher {
+            color: green;
+        }
+
+        .book .edition {
+            color: orange;
+        }
+
+        .book .price {
+            color: purple;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="bookContainer"></div>
+
+    <script>
+        // Load and parse the XML file
+        var xhttp = new XMLHttpRequest();
+
+        // onreadystatechange is a property of XMLHttpRequest
+        // ye function tab call hoga jab readyState ki value change hogi
+        // readyState ki value change hoti hai jab hum koi request bhejte hai
+        // hamare case me xml file load karne ke liye request bhej rhe hai
+        // readyState ki value 0 se 4 tak ho sakti hai
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                displayBooks(this);
+            }
+        };
+
+        // open() method se request bhejte hai
+        // open() method me 3 parameters pass krte hai
+        // 1. request type (GET, POST, PUT, DELETE)
+        // 2. url
+        // 3. true or false (true means asynchronous, false means synchronous)
+
+        xhttp.open("GET", "books.xml", true);
+        // send() method se request ko send krte hai
+        // request yaha se kise jayegi? xhttp.open() me jo url pass kiya hai usi url se jayegi
+        // fir jab response aayega to us response ko displayBooks() function me pass karenge
+        // displayBooks() function me xml file ka response aayega
+        // xml file ka response aane ke baad displayBooks() function me xml file ka response aayega
+        xhttp.send();
+
+        // ye upar sari chige tab hogi jab hum page ko load karenge
+        // jab page load hoga tab ye function call hoga
+        // jab ye function call hoga tab ye function xhttp.open() ko call karega
+        // jab xhttp.open() call hoga tab ye function xhttp.send() ko call karega
+        // jab xhttp.send() call hoga tab ye function displayBooks() ko call karega
+
+
+
+        function displayBooks(xml) {
+
+            // xml.responseXML se xml file ka response aayega
+            var xmlDoc = xml.responseXML;
+            // getElementsByTagName() method se xml file ke sare book elements ko get karenge
+            var books = xmlDoc.getElementsByTagName("book");
+
+
+            // or ye to normal html me define kia hia ek div... script tag suru hone se phele
+            var bookContainer = document.getElementById("bookContainer");
+
+            // Loop through each book element
+            for (var i = 0; i < books.length; i++) {
+                var book = books[i];
+                var title = book.getElementsByTagName("title")[0].childNodes[0].nodeValue;
+                var author = book.getElementsByTagName("author")[0].childNodes[0].nodeValue;
+                var isbn = book.getElementsByTagName("isbn")[0].childNodes[0].nodeValue;
+                var publisher = book.getElementsByTagName("publisher")[0].childNodes[0].nodeValue;
+                var edition = book.getElementsByTagName("edition")[0].childNodes[0].nodeValue;
+                var price = book.getElementsByTagName("price")[0].childNodes[0].nodeValue;
+
+                // ek div create karenge jo sare book ko contain krega(n divs for n books)
+                var bookDiv = document.createElement("div");
+                bookDiv.classList.add("book");
+
+
+
+
+
+                // Book ki information ke liye alag alag div create krenge(or unme uski particular css add kar denge)
+                // css upar define kari hia 
+                var titleDiv = document.createElement("div");
+                // ye niche wali line se titleDiv me "class = title" add ho jayega or fir us particular class in css lag jayegi 
+                titleDiv.classList.add("title");
+                // ye niche wali line se titleDiv me title(upar define kra hai, xml file se books array bani or har element ki value ek variable me save kari hia) ki value aa jayegi
+                titleDiv.textContent = title;
+
+                var authorDiv = document.createElement("div");
+                authorDiv.classList.add("author");
+                authorDiv.textContent = author.toUpperCase();
+
+                var isbnDiv = document.createElement("div");
+                isbnDiv.classList.add("isbn");
+                isbnDiv.textContent = "ISBN: " + isbn;
+
+                var publisherDiv = document.createElement("div");
+                publisherDiv.classList.add("publisher");
+                publisherDiv.textContent = "Publisher: " + publisher;
+
+                var editionDiv = document.createElement("div");
+                editionDiv.classList.add("edition");
+                editionDiv.textContent = "Edition: " + edition;
+
+                var priceDiv = document.createElement("div");
+                priceDiv.classList.add("price");
+                priceDiv.textContent = "Price: $" + price;
+
+                // ab sare  child ko div(class name = book) me append kro
+                bookDiv.appendChild(titleDiv);
+                bookDiv.appendChild(authorDiv);
+                bookDiv.appendChild(isbnDiv);
+                bookDiv.appendChild(publisherDiv);
+                bookDiv.appendChild(editionDiv);
+                bookDiv.appendChild(priceDiv);
+
+                // Append the book div to the container
+                bookContainer.appendChild(bookDiv);
+            }
+        }
+    </script>
+</body>
+
+</html>

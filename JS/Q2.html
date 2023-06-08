@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Registration Form</title>
+    <style>
+        .invalid {
+            border: 1px solid red;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Registration Form</h1>
+    <form id="registrationForm" onsubmit="return validateRegistrationForm()">
+        <label for="name">Name:</label>
+        <input type="text" id="name" required>
+        <label for="password">Password:</label>
+        <input type="password" id="password" required>
+        <label for="email">E-mail:</label>
+        <input type="email" id="email" required>
+        <button type="submit">Register</button>
+    </form>
+    <script>
+        function validateRegistrationForm() {
+            var nameInput = document.getElementById("name");
+            var passwordInput = document.getElementById("password");
+            var emailInput = document.getElementById("email");
+            var name = nameInput.value.trim();
+            var password = passwordInput.value;
+            var email = emailInput.value.trim();
+
+            var isValid = true;
+            if (!isValidName(name)) {
+                nameInput.classList.add("invalid");
+                isValid = false;
+            } else {
+                nameInput.classList.remove("invalid");
+            }
+            if (password.length < 6) {
+                passwordInput.classList.add("invalid");
+                isValid = false;
+            } else {
+                passwordInput.classList.remove("invalid");
+            }
+            if (!isValidEmail(email)) {
+                emailInput.classList.add("invalid");
+                isValid = false;
+            } else {
+                emailInput.classList.remove("invalid");
+            }
+
+            return isValid;
+        }
+        function isValidName(name) {
+            return /^[A-Za-z\s]{6,}$/.test(name);
+        }
+        function isValidEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+    </script>
+</body>
+
+</html>

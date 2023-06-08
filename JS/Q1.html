@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Credit Card Validator</title>
+    <style>
+        h1 {
+            text-align: center;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Credit Card Validator</h1>
+        <div class="form-group">
+            <label for="creditCardNumber">Credit Card Number:</label>
+            <input type="text" id="creditCardNumber" placeholder="Enter your credit card number">
+        </div>
+        <button onclick="validateCreditCard()">Validate</button>
+        <div id="validationResult" class="result"></div>
+    </div>
+    <script>
+        function validateCreditCard() {
+            var cardNumber = document.getElementById("creditCardNumber").value.replace(/\s/g, '');
+            var validationMessage = "";
+            if (cardNumber.length === 0) {
+                validationMessage = "Please enter a credit card number.";
+            } else if (/[^0-9-\s]+/.test(cardNumber)) {
+                validationMessage = "Invalid characters found. Please enter only digits (0-9).";
+            } else if (!isValidCardLength(cardNumber)) {
+                validationMessage = "Invalid card length. Please check the number of digits.";
+            } else if (!isValidCardPrefix(cardNumber)) {
+                validationMessage = "Invalid card prefix. Please check the card type.";
+            } else {
+                validationMessage = "Valid card number!";
+            }
+            document.getElementById("validationResult").innerHTML = validationMessage;
+        }
+        function isValidCardLength(cardNumber) {
+            var cardLength = cardNumber.length;
+            if (cardLength === 16 && isMasterCard(cardNumber)) {
+                return true;
+            } else if ((cardLength === 13 || cardLength === 16) && isVisa(cardNumber)) {
+                return true;
+            } else if (cardLength === 15 && isAmericanExpress(cardNumber)) {
+                return true;
+            }
+            return false;
+        }
+        function isValidCardPrefix(cardNumber) {
+            var cardPrefix = cardNumber.slice(0, 2);
+            if (isMasterCard(cardNumber) && cardPrefix >= 51 && cardPrefix <= 55) {
+                return true;
+            } else if (isVisa(cardNumber) && (cardNumber.length === 13 || cardNumber.length === 16)) {
+                return true;
+            } else if (isAmericanExpress(cardNumber) && (cardPrefix === "34" || cardPrefix === "37")) {
+                return true;
+            }
+            return false;
+        }
+        function isMasterCard(cardNumber) {
+            return /^5[1-5]/.test(cardNumber);
+        }
+        function isVisa(cardNumber) {
+            return /^4/.test(cardNumber);
+        }
+        function isAmericanExpress(cardNumber) {
+            return /^3[47]/.test(cardNumber);
+        }
+    </script>
+</body>
+
+</html>
